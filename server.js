@@ -22,18 +22,18 @@ let onlineUsers = 0;
 // const expressApp = express();
 // const server = http.createServer(expressApp);
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
-
 const io = new Server(server, {
   cors: {
     origin: "*",
   },
-  transports: ["websocket"],
 });
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+//   transports: ["websocket"],
+// });
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
