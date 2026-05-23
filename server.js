@@ -22,15 +22,26 @@ let onlineUsers = 0;
 // const expressApp = express();
 // const server = http.createServer(expressApp);
 
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
+
 const io = new Server(server, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST"],
   },
+});
+
+app.get("/", (req, res) => {
+  res.send("Socket server running");
 });
 
 // const io = new Server(server, {
 //   cors: {
-//     origin: "*",
+//     origin: "*", 
 //   },
 //   transports: ["websocket"],
 // });
@@ -128,13 +139,15 @@ io.on("connection", (socket) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Socket server running");
-});
 
-const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+const PORT = process.env.PORT || 10000;
+
+// server.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
 
