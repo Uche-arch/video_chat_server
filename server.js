@@ -4,7 +4,6 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
-
 const app = express();
 
 app.use(cors());
@@ -23,12 +22,17 @@ let onlineUsers = 0;
 // const expressApp = express();
 // const server = http.createServer(expressApp);
 
-
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
 
 const io = new Server(server, {
   cors: {
     origin: "*",
   },
+  transports: ["websocket"],
 });
 
 io.on("connection", (socket) => {
@@ -123,8 +127,6 @@ io.on("connection", (socket) => {
     }
   }
 });
-
-
 
 app.get("/", (req, res) => {
   res.send("Socket server running");
