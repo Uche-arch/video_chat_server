@@ -8,36 +8,25 @@ const app = express();
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Socket server running");
+});
+
 const server = http.createServer(app);
 
 // const dev = process.env.NODE_ENV !== "production";
 // const app = next({ dev });
 // const handler = app.getRequestHandler();
 
-let waitingUser = null;
-const pairs = {};
-let onlineUsers = 0;
-
-// app.prepare().then(() => {
-// const expressApp = express();
-// const server = http.createServer(expressApp);
-
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
-
 const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
   },
+  transports: ["websocket"],
 });
 
-app.get("/", (req, res) => {
-  res.send("Socket server running");
-});
+
 
 // const io = new Server(server, {
 //   cors: {
@@ -45,6 +34,10 @@ app.get("/", (req, res) => {
 //   },
 //   transports: ["websocket"],
 // });
+
+let waitingUser = null;
+const pairs = {};
+let onlineUsers = 0;
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
